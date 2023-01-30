@@ -19,6 +19,9 @@ jobs:
       packages: write
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       # https://github.com/actions/setup-java
       - name: Setup JDK
         uses: actions/setup-java@v3
@@ -26,10 +29,6 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
           cache: 'maven'
-
-      # https://github.com/actions/checkout
-      - name: Checkout repository
-        uses: actions/checkout@v3
 
       # Build Docker image with Maven
       - name: Build with Maven
