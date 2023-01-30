@@ -12,6 +12,8 @@ env:
   REGISTRY: docker.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
+  # Directory of pom.xml
+  WORKING_DIR: ./demo
 
 
 jobs:
@@ -54,8 +56,10 @@ jobs:
       # Build & Containerize sources with Maven
       - name: Build with Maven
         run: ./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=${{ github.repository }}
-        working-directory: ./demo
+        working-directory: ${{ env.WORKING_DIR }}
 
       # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
       - name: Update dependency graph
         uses: advanced-security/maven-dependency-submission-action@v2.0.1
+        with:
+          directory: ${{ env.WORKING_DIR }}
